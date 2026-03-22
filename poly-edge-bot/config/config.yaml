@@ -1,0 +1,59 @@
+# ============================================================
+# poly-edge-bot — Master Configuration
+# Configuración maestra del bot de trading
+# ============================================================
+
+# --- Mode / Modo ---
+# Options: readonly, simulator, live
+mode: readonly
+
+# --- Polymarket API ---
+polymarket:
+  clob_host: "https://clob.polymarket.com"
+  gamma_host: "https://gamma-api.polymarket.com"
+  chain_id: 137
+
+# --- Edge Detection / Detección de ventaja ---
+edge:
+  min_edge_pct: 0.08            # 8% minimum edge (prob_model - market_price)
+  free_money_max_prob: 0.04     # NO prob < 4% = "dinero gratis"
+  min_liquidity_usd: 80000      # $80k minimum liquidity
+  min_volume_24h_usd: 40000     # $40k minimum 24h volume
+  min_hours_to_resolution: 48   # No markets resolving within 48h
+
+# --- Kelly Criterion / Criterio de Kelly ---
+kelly:
+  alpha: 0.25                   # Fractional Kelly multiplier (conservative)
+  max_bet_pct: 0.05             # Max 5% of bankroll per bet
+
+# --- Risk Management / Gestión de riesgo ---
+risk:
+  daily_loss_limit_usd: 50.0    # Stop trading after $50 daily loss
+  max_position_usd: 100.0       # Max single position size
+  max_open_positions: 5          # Max concurrent positions
+  stop_loss_pct: 0.15           # 15% stop-loss per trade
+  var_confidence: 0.95           # Value at Risk confidence level
+  var_horizon_hours: 24          # VaR time horizon
+
+# --- Simulator / Simulador ---
+simulator:
+  initial_bankroll: 1000.0      # Starting fake balance (USD)
+  slippage_bps: 50              # Simulated slippage in basis points
+
+# --- Notifications / Notificaciones ---
+notifications:
+  enabled: false
+  telegram:
+    send_on_opportunity: true
+    send_on_trade: true
+    send_on_daily_summary: true
+
+# --- Logging ---
+logging:
+  level: INFO                   # DEBUG, INFO, WARNING, ERROR
+  file: logs/poly-edge-bot.log
+  rotation: "10 MB"
+  retention: "7 days"
+
+# --- Scan interval / Intervalo de escaneo ---
+scan_interval_seconds: 60       # How often to scan markets
